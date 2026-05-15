@@ -1,0 +1,72 @@
+html {
+    font-family: Arial, Helvetica, sans-serif;
+}
+body {
+    margin: 0;
+    padding: 0;
+}
+header {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    background: white;
+}
+header p {
+    padding: 0px 10px;
+}
+article {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.not_srolable {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    top: 84px;
+    left: 0px;
+    right: 0px;
+    position: fixed;
+    border-bottom: 3px solid black;
+}
+#click {
+    padding-bottom: 20px;
+}
+#score {
+    text-align: center;
+}
+.Upgrades {
+    margin-top: 363px;
+}
+#cards {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.upgrade_card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 50vh;
+}
+.upgrade_card button {
+    width: 100px;
+    height: auto;
+    padding: 10px 15px;
+}
+.upgrade_card h1 {
+    padding: 0;
+    margin: 2px;
+}
+.upgrade_card img {
+    height: auto;
+    height: 200px;
+    border-radius: 50%;
+}
+.error {
+    background: darkred !important;
+}
