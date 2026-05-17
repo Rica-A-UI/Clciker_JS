@@ -93,7 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
 clicker.addEventListener("click", (event) => {
     const floating_num = document.createElement("div")
     counter = click_power + counter
-    score.innerHTML = counter
     clicker.style.transform = "scale(0.95)"
     setTimeout(() => {
         clicker.style.transform = "scale(1)"
@@ -134,6 +133,6 @@ setInterval(() => {
         setTimeout(() => {
             floating_down.remove()
         }, 500)
-        score.innerHTML = Math.floor(counter)
+        score.innerText = Math.floor(counter)
     }
 }, 1000)
