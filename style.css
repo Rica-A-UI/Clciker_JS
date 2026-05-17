@@ -2,18 +2,23 @@ html {
     font-family: Arial, Helvetica, sans-serif;
 }
 body {
+    background: linear-gradient(to bottom, rgba(15, 15, 17, 1) 60%, rgba(53, 15, 15, 1) 100%);
     margin: 0;
     padding: 0;
 }
-header {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    background: white;
+#assend_btn {
+    height: auto;
+    width: auto;
+    border: none;
+    color: rgba(255, 255, 255, 1);
+    background: black;
+    padding: 5px 10px;
+    border-radius: 20%;
+    transition: 15ms;
 }
-header p {
-    padding: 0px 10px;
+#assend_btn:hover {
+    color: rgba(0, 0, 0, 1);
+    background: rgba(255, 255, 255, 1);
 }
 article {
     display: flex;
@@ -25,33 +30,88 @@ article {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: white;
-    top: 84px;
+    background: linear-gradient(to top, rgba(15, 15, 17, 1) 40%, rgba(53, 15, 15, 1) 100%);
+    color: white;
+    top: 0px;
     left: 0px;
     right: 0px;
     position: fixed;
-    border-bottom: 3px solid black;
+    border-bottom: 3px solid white;
+    z-index: 10;
 }
 #click {
     padding-bottom: 20px;
+    border-radius: 50%;
+}
+.floating_num {
+    position: fixed;
+    pointer-events: none;
+    color: white;
+    font-weight: bold;
+    z-index: 9999;
+    animation: float_up 500ms ease-in forwards;
+}
+@keyframes float_up {
+    from {opacity: 1;
+    transform: translateY(0);
+    }
+    to {opacity: 0;
+    transform: translateY(-40px);
+    }
+}
+.floating_down {
+    position: fixed;
+    pointer-events: none;
+    color: white;
+    font-weight: bold;
+    z-index: 9999;
+    animation: float_down 500ms ease-in forwards;
+}
+@keyframes float_down {
+    from {opacity: 1;
+    transform: translateY(0);
+    }
+    to {opacity: 0;
+    transform: translateY(40px);
+    }
 }
 #score {
     text-align: center;
 }
-.Upgrades {
+.upgrades {
+    min-height: 100vh;
     margin-top: 363px;
+}
+.upgrades h1 {
+    color: white;
+    text-align: center;
+    border-bottom: 2px solid white;
 }
 #cards {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 24px;
+    padding: 20px;   
 }
 .upgrade_card {
+    background: linear-gradient(to top, rgba(15, 15, 17, 1) 20%, rgba(53, 15, 15, 1) 100%);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
+    flex-grow: 1;
+    padding: 20px;
     gap: 20px;
-    width: 50vh;
+    min-width: 280px;
+    box-sizing: border-box;
+}
+.upgrade_card:hover {
+    transform: scale(1.05);
 }
 .upgrade_card button {
     width: 100px;
@@ -68,5 +128,6 @@ article {
     border-radius: 50%;
 }
 .error {
-    background: darkred !important;
+    background: rgba(248, 113, 113, 1) !important;
+    color: rgba(18, 18, 18, 1) !important;
 }
