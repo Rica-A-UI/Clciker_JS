@@ -9,34 +9,63 @@ let counter = 0
 let click_power = 1
 let afk = 0
 let assend_status = false
+let starter_assend_value = 1000000
 
 let upgrades = [
     {
-        name: "Papildus darbarīks",
-        image: "https://th.bing.com/th/id/OIP.EGeDo7TK7J_qRSbJHJM4TAHaEP?w=283&h=180&c=7&r=0&o=7&pid=1.7&rm=3",
-        cost: 5,
+        name: "1",
+        image: "",
+        cost: 10,
         value: 1,
         type: "click",
     },
     {
-        name: "Automātiskā lauksaimniecība",
-        image: "https://tse4.mm.bing.net/th/id/OIP.oqXiyrYVrHJBBh70e9cm7gHaEK?rs=1&pid=ImgDetMain&o=7&rm=3",
-        cost: 20,
-        value: 4,
+        name: "2",
+        image: "",
+        cost: 100,
+        value: 1,
         type: "auto",
     },
     {
-        name: "Traktors",
-        image: "https://th.bing.com/th/id/OIP.WPi0Bq9hdNsP9gc1433H6gHaEK?w=317&h=180&c=7&r=0&o=7&pid=1.7&rm=3",
-        cost: 100,
-        value: 20,
+        name: "3",
+        image: "",
+        cost: 50,
+        value: 5,
         type: "click",
     },
     {
-        name: "Labs politiķis",
-        image: "https://th.bing.com/th/id/OIP.M-9NfKx7tC_3T7H9fkeaewHaJS?w=186&h=233&c=7&r=0&o=7&pid=1.7&rm=3",
-        cost: 200,
-        value: 40,
+        name: "4",
+        image: "",
+        cost: 500,
+        value: 5,
+        type: "auto",
+    },
+    {
+        name: "5",
+        image: "",
+        cost: 1000,
+        value: 10,
+        type: "click",
+    },
+    {
+        name: "6",
+        image: "",
+        cost: 5000,
+        value: 10,
+        type: "auto",
+    },
+    {
+        name: "7",
+        image: "",
+        cost: 10000,
+        value: 15,
+        type: "click",
+    },
+    {
+        name: "5",
+        image: "",
+        cost: 50000,
+        value: 15,
         type: "auto",
     },
 ]
@@ -51,7 +80,9 @@ function upgrades_update () {
             <button onclick="buyUpgrade(${i}, event)">Cost: $${upgrade.cost}</button>
         </div>
     `
-    cards.innerHTML += cardHTML
+    if (upgrade.cost <= counter) {
+        cards.innerHTML += cardHTML
+    } 
 })
 }
 
@@ -70,6 +101,7 @@ function buyUpgrade(i, event) {
         }
         score.innerText = Math.floor(counter)
         button.innerHTML = `Cost: $${item.cost}`
+        upgrades_update()
     } else {
         button.classList.add('error')
         setTimeout(() => {
@@ -105,11 +137,12 @@ clicker.addEventListener("click", (event) => {
     setTimeout(() => {
         floating_num.remove()
     }, 500)
+    upgrades_update()
     score.innerText = Math.floor(counter)
 })
 
 assend_btn.addEventListener("click", () => {
-    if (counter == 1000000) {
+    if (counter == starter_assend_value) {
         assend.style.display = "block"
         main_game.style.display = "none"
     } else {
@@ -134,5 +167,6 @@ setInterval(() => {
             floating_down.remove()
         }, 500)
         score.innerText = Math.floor(counter)
+        upgrades_update()
     }
 }, 1000)
