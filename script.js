@@ -99,9 +99,7 @@ function events_giver() {
 
 function upgrades_update () {
     cards.innerHTML = ''
-    let sorted = upgrades.sort((a, b) => {
-        return b.cost < a.cost
-    })
+    let sorted = upgrades.sort((a, b) => a.cost - b.cost)
     sorted.forEach((upgrade, i) => {
     const cardHTML = `
         <div class="upgrade_card">
