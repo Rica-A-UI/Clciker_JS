@@ -10,6 +10,7 @@ let click_power = 1
 let afk = 0
 let assend_status = false
 let starter_assend_value = 1000000
+let random_event = ["2x", "2less upgrade", "0.5 Taxes", "-all afk"]
 
 let upgrades = [
     {
@@ -29,7 +30,7 @@ let upgrades = [
     {
         name: "3",
         image: "",
-        cost: 50,
+        cost: 5,
         value: 5,
         type: "click",
     },
@@ -62,7 +63,7 @@ let upgrades = [
         type: "click",
     },
     {
-        name: "5",
+        name: "8",
         image: "",
         cost: 50000,
         value: 15,
@@ -70,9 +71,38 @@ let upgrades = [
     },
 ]
 
+function events_giver() {
+    let buff_debuff = random_event[Math.floor(Math.random()*random_event.length)]
+    let previous_1 = afk
+    let previous_2 = click_power
+    if (buff_debuff == "2x") {
+        afk *= 2
+        click_power *= 2
+        setTimeout((previous) => {
+            afk = previous_1
+            click_power = previous_2
+        }, 10000)
+    } else if (buff_debuff == "2less upgrade") {
+        afk = afk / 2
+        click_power = click_power / 2
+        setTimeout((previous) => {
+            afk = previous_1
+            click_power = previous_2
+        }, 10000)
+    } else if (buff_debuff == "0.5 Taxes") {
+        counter = Math.floor(counter / 2)
+        score.innerText(counter)
+    } else {
+        afk -= afk
+    }
+}
+
 function upgrades_update () {
     cards.innerHTML = ''
-    upgrades.forEach((upgrade, i) => {
+    let sorted = upgrades.sort((a, b) => {
+        return b.cost < a.cost
+    })
+    sorted.forEach((upgrade, i) => {
     const cardHTML = `
         <div class="upgrade_card">
             <h1>${upgrade.name}</h1>
@@ -83,7 +113,7 @@ function upgrades_update () {
     if (upgrade.cost <= counter) {
         cards.innerHTML += cardHTML
     } 
-})
+    })
 }
 
 function buyUpgrade(i, event) {
@@ -102,11 +132,6 @@ function buyUpgrade(i, event) {
         score.innerText = Math.floor(counter)
         button.innerHTML = `Cost: $${item.cost}`
         upgrades_update()
-    } else {
-        button.classList.add('error')
-        setTimeout(() => {
-            button.classList.remove('error')
-        }, 150);
     }
 }
 
@@ -156,6 +181,7 @@ assend_btn.addEventListener("click", () => {
 setInterval(() => {
     if (afk > 0) {
         counter += afk
+        let random_number = Math.random()
         const spawn = score.getBoundingClientRect()
         const floating_down = document.createElement("div")
         floating_down.classList.add("floating_down")
@@ -166,6 +192,9 @@ setInterval(() => {
         setTimeout(() => {
             floating_down.remove()
         }, 500)
+        if (random_number == 1 || random_number == -1 || random_number == 0) {
+            events_giver()
+        }
         score.innerText = Math.floor(counter)
         upgrades_update()
     }
