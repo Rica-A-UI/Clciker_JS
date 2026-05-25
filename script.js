@@ -4,13 +4,46 @@ const score = document.getElementById("score")
 const assend_btn = document.getElementById("assend_btn")
 const main_game = document.getElementById("main_game")
 const assend = document.getElementById("assend")
+const man_img = document.getElementById("man")
+const fish_hp = document.getElementById("fish_hp")
+const clicker_div = document.getElementsByClassName("not_srolable")[0]
+const upgrades_div = document.getElementsByClassName("upgrades")[0]
+const mini_game_div = document.getElementsByClassName("mini_game")[0]
 
+let mini_game_active = false
+let current_fish = null
+let fish_health = 100
+let hp_interval = null
 let counter = 0
 let click_power = 1
 let afk = 0
+let lvl = 1
 let assend_status = false
 let starter_assend_value = 1000000
 let random_event = ["2x", "2less upgrade", "0.5 Taxes", "-all afk"]
+
+let fishes = [
+    {
+        name: "",
+        value: 10,
+        rarity: 0.5,
+    },
+    {
+        name: "",
+        value: 50,
+        rarity: 0.3,
+    },
+    {
+        name: "",
+        value: 150,
+        rarity: 0.15,
+    },
+    {
+        name: "",
+        value: 800,
+        rarity: 0.05,
+    },
+]
 
 let upgrades = [
     {
@@ -30,7 +63,7 @@ let upgrades = [
     {
         name: "3",
         image: "",
-        cost: 5,
+        cost: 50,
         value: 5,
         type: "click",
     },
@@ -71,6 +104,53 @@ let upgrades = [
     },
 ]
 
+function random_fish() {
+    const the_fish = Math.random()
+    let saskaite = 0
+    for(const fish of fishes) {
+        saskaite += fish.rarity
+        if (the_fish < saskaite) {
+            return fish
+        }
+    }
+    return fishes[0]
+}
+
+function start_fish() {
+    if(!mini_game_active) {
+        mini_game_active = true
+        current_fish = random_fish()
+        fish_health = 100
+        fish_hp.value = 100
+        man_img.src = "imgs/3.png"
+        hp_interval = setInterval(() => {
+            fish_health -= 5
+            fish_hp.value = fish_health
+            if (fish_health <= 0) {
+                fish_escape()
+            }
+        }, 500)
+    }
+}
+
+function fish_escape() {
+    clearInterval(hp_interval)
+    mini_game_active = false
+    man_img.src = "imgs/2.png"
+    fish_hp.value = 100
+    setTimeout(() => {start_fish()}, 2000)
+}
+
+function cought() {
+    clearInterval(hp_interval)
+    mini_game_active = false
+    counter += current_fish.value*lvl
+    score.innerText = Math.floor(counter)
+    man_img.src = "imgs/1.png"
+    upgrades_update()
+    setTimeout(() => {start_fish()}, 2000)
+}
+
 function events_giver() {
     let buff_debuff = random_event[Math.floor(Math.random()*random_event.length)]
     let previous_1 = afk
@@ -78,20 +158,20 @@ function events_giver() {
     if (buff_debuff == "2x") {
         afk *= 2
         click_power *= 2
-        setTimeout((previous) => {
+        setTimeout(() => {
             afk = previous_1
             click_power = previous_2
         }, 10000)
     } else if (buff_debuff == "2less upgrade") {
         afk = afk / 2
         click_power = click_power / 2
-        setTimeout((previous) => {
+        setTimeout(() => {
             afk = previous_1
             click_power = previous_2
         }, 10000)
     } else if (buff_debuff == "0.5 Taxes") {
         counter = Math.floor(counter / 2)
-        score.innerText(counter)
+        score.innerText = counter
     } else {
         afk -= afk
     }
@@ -123,9 +203,9 @@ function buyUpgrade(i, event) {
         item.cost = Math.round(item.cost*1.5)
 
         if (item.type === "click") {
-            click_power += item.value
+            click_power += item.value*lvl
         } else if (item.type === "auto") {
-            afk += item.value
+            afk += item.value*lvl
         }
         score.innerText = Math.floor(counter)
         button.innerHTML = `Cost: $${item.cost}`
@@ -134,8 +214,11 @@ function buyUpgrade(i, event) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    score.innerText = Math.floor(counter) 
+    const clicker_div_height = clicker_div.offsetHeight
+    upgrades_div.style.marginTop = `${clicker_div_height+3}px`
+    score.innerText = Math.floor(counter)
     upgrades_update()
+    start_fish()
     if (assend_status==false) {
     assend.style.display = "none"
     main_game.style.display = "block"
@@ -165,7 +248,7 @@ clicker.addEventListener("click", (event) => {
 })
 
 assend_btn.addEventListener("click", () => {
-    if (counter == starter_assend_value) {
+    if (counter >= starter_assend_value) {
         assend.style.display = "block"
         main_game.style.display = "none"
     } else {
@@ -173,6 +256,16 @@ assend_btn.addEventListener("click", () => {
         setTimeout(() => {
             assend_btn.classList.remove('error')
         }, 150);
+    }
+})
+
+mini_game_div.addEventListener("click", () => {
+    if (mini_game_active) {
+        fish_health -= 20
+        fish_hp.value = fish_health
+        if (fish_health <= 0) {
+            cought()
+        }
     }
 })
 
@@ -190,7 +283,7 @@ setInterval(() => {
         setTimeout(() => {
             floating_down.remove()
         }, 500)
-        if (random_number == 1 || random_number == -1 || random_number == 0) {
+        if (random_number < 0.01) {
             events_giver()
         }
         score.innerText = Math.floor(counter)
