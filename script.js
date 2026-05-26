@@ -230,13 +230,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 clicker.addEventListener("click", (event) => {
     const floating_num = document.createElement("div")
-    counter = click_power + counter
+    let crit = Math.random()
     clicker.style.transform = "scale(0.95)"
     setTimeout(() => {
         clicker.style.transform = "scale(1)"
     }, 50)
-    floating_num.classList.add("floating_num")
-    floating_num.innerText = `+${click_power}`
+    if (crit < 0.05) {
+        counter = click_power*2 + counter
+        floating_num.classList.add("floarting_num_crit")
+        floating_num.innerText = `+${click_power*2}`
+    } else {
+        counter = click_power + counter
+        floating_num.classList.add("floating_num")
+        floating_num.innerText = `+${click_power}`
+    }
     floating_num.style.left = `${event.clientX-Math.random()*20}px`
     floating_num.style.top = `${event.clientY-Math.random()*10}px`
     document.body.appendChild(floating_num)

@@ -87,6 +87,14 @@ article {
     z-index: 9999;
     animation: float_up 500ms ease-in forwards;
 }
+.floarting_num_crit {
+    position: fixed;
+    pointer-events: none;
+    color: red;
+    font-weight: bold;
+    z-index: 9999;
+    animation: float_up 500ms ease-in forwards;
+}
 @keyframes float_up {
     from {opacity: 1;
     transform: translateY(0);
