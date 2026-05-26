@@ -9,6 +9,10 @@ const fish_hp = document.getElementById("fish_hp")
 const clicker_div = document.getElementsByClassName("not_srolable")[0]
 const upgrades_div = document.getElementsByClassName("upgrades")[0]
 const mini_game_div = document.getElementsByClassName("mini_game")[0]
+const lvl2_btn = document.getElementById("lvl2")
+const lvl3_btn = document.getElementById("lvl3")
+const lvl4_btn = document.getElementById("lvl4")
+const lvl5_btn = document.getElementById("lvl5")
 
 let mini_game_active = false
 let current_fish = null
@@ -19,7 +23,7 @@ let click_power = 1
 let afk = 0
 let lvl = 1
 let assend_status = false
-let starter_assend_value = 1000000
+let starter_assend_value = 1000000*lvl
 let random_event = ["2x", "2less upgrade", "0.5 Taxes", "-all afk"]
 
 let fishes = [
@@ -179,13 +183,13 @@ function events_giver() {
 
 function upgrades_update () {
     cards.innerHTML = ''
-    let sorted = upgrades.sort((a, b) => a.cost - b.cost)
-    sorted.forEach((upgrade, i) => {
+    let sorted = [...upgrades].sort((a, b) => a.cost - b.cost)
+    sorted.forEach((upgrade) => {
     const cardHTML = `
         <div class="upgrade_card">
             <h1>${upgrade.name}</h1>
             <img src="${upgrade.image}" alt="${upgrade.name}">
-            <button onclick="buyUpgrade(${i}, event)">Cost: $${upgrade.cost}</button>
+            <button onclick="buyUpgrade('${upgrade.name}', event)">Cost: $${upgrade.cost}</button>
         </div>
     `
     if (upgrade.cost <= counter) {
@@ -194,8 +198,8 @@ function upgrades_update () {
     })
 }
 
-function buyUpgrade(i, event) {
-    const item = upgrades[i]
+function buyUpgrade(name, event) {
+    const item = upgrades.find(u => u.name === name)
     const button = event.target
 
     if (counter >= item.cost) {
