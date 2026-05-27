@@ -7,7 +7,7 @@ body {
     padding: 0;
 }
 #assend_btn {
-    height: auto;
+    height: 25px;
     width: auto;
     border: none;
     color: rgba(255, 255, 255, 1);
@@ -39,6 +39,12 @@ article {
     border-bottom: 3px solid white;
     z-index: 10;
 }
+.upper_btn_event {
+    width: 100px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
 .clicker_place {
     width: 100%;
     display: flex;
@@ -68,7 +74,7 @@ article {
 #click {
     padding-bottom: 20px;
     border-radius: 50%;
-    width: 600px;
+    width: 400px;
     -webkit-user-drag: none;
     user-select: none;
     -moz-user-select: none;

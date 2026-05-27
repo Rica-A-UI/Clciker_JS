@@ -2,6 +2,7 @@ const clicker = document.getElementById("click")
 const cards = document.getElementById("cards")
 const score = document.getElementById("score")
 const assend_btn = document.getElementById("assend_btn")
+const cur_event = document.getElementById("curr_event")
 const main_game = document.getElementById("main_game")
 const assend = document.getElementById("assend")
 const man_img = document.getElementById("man")
@@ -155,6 +156,10 @@ function cought() {
     setTimeout(() => {start_fish()}, 2000)
 }
 
+function assending() {
+    lvl += 1
+}
+
 function events_giver() {
     let buff_debuff = random_event[Math.floor(Math.random()*random_event.length)]
     let previous_1 = afk
@@ -162,22 +167,31 @@ function events_giver() {
     if (buff_debuff == "2x") {
         afk *= 2
         click_power *= 2
+        cur_event.innerText = "Event: 2x all"
         setTimeout(() => {
             afk = previous_1
             click_power = previous_2
+            cur_event.innerText = "Event: None"
         }, 10000)
     } else if (buff_debuff == "2less upgrade") {
-        afk = afk / 2
-        click_power = click_power / 2
+        afk = Math.round(afk / 2)
+        click_power = Math.round(click_power / 2)
+        cur_event.innerText = "Event: half all power"
         setTimeout(() => {
             afk = previous_1
             click_power = previous_2
+            cur_event.innerText = "Event: None"
         }, 10000)
     } else if (buff_debuff == "0.5 Taxes") {
+        cur_event.innerText = "Event: half ur score"
         counter = Math.floor(counter / 2)
         score.innerText = counter
     } else {
+        cur_event.innerText = "Event: take away all passiv income"
         afk -= afk
+        setTimeout(() => {
+            cur_event.innerText = "Event: None"
+        }, 1000)
     }
 }
 
