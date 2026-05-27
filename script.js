@@ -252,6 +252,8 @@ function buyUpgrade(name, event) {
         } else if (item.type === "Fish_game") {
             item.bought = true
             mini_game_div.style.display = "block"
+            clicker_div_height = clicker_div.offsetHeight
+            upgrades_div.style.marginTop = `${clicker_div_height+3}px`
         } else if (item.type === "crit") {
             crit_giver += item.value
         }
@@ -262,9 +264,9 @@ function buyUpgrade(name, event) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const clicker_div_height = clicker_div.offsetHeight
-    upgrades_div.style.marginTop = `${clicker_div_height+3}px`
     mini_game_div.style.display = `none`
+    let clicker_div_height = clicker_div.offsetHeight
+    upgrades_div.style.marginTop = `${clicker_div_height+3}px`
     score.innerText = Math.floor(counter)
     upgrades_update()
     if (assend_status==false) {
@@ -310,7 +312,7 @@ assend_btn.addEventListener("click", () => {
         assend_btn.classList.add('error')
         setTimeout(() => {
             assend_btn.classList.remove('error')
-        }, 150);
+        }, 150)
     }
 })
 
