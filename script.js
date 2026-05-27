@@ -10,6 +10,7 @@ const fish_hp = document.getElementById("fish_hp")
 const clicker_div = document.getElementsByClassName("not_srolable")[0]
 const upgrades_div = document.getElementsByClassName("upgrades")[0]
 const mini_game_div = document.getElementsByClassName("mini_game")[0]
+const clicker_place = document.getElementsByClassName("clicker_place")[0]
 const lvl2_btn = document.getElementById("lvl2")
 const lvl3_btn = document.getElementById("lvl3")
 const lvl4_btn = document.getElementById("lvl4")
@@ -26,26 +27,27 @@ let lvl = 1
 let assend_status = false
 let starter_assend_value = 1000000*lvl
 let random_event = ["2x", "2less upgrade", "0.5 Taxes", "-all afk"]
+let crit_giver = 2
 
 let fishes = [
     {
         name: "",
-        value: 10,
+        value: 10*click_power,
         rarity: 0.5,
     },
     {
         name: "",
-        value: 50,
+        value: 50*click_power,
         rarity: 0.3,
     },
     {
         name: "",
-        value: 150,
+        value: 150*click_power,
         rarity: 0.15,
     },
     {
         name: "",
-        value: 800,
+        value: 800*click_power,
         rarity: 0.05,
     },
 ]
@@ -57,6 +59,7 @@ let upgrades = [
         cost: 10,
         value: 1,
         type: "click",
+        bought: false,
     },
     {
         name: "2",
@@ -64,6 +67,7 @@ let upgrades = [
         cost: 100,
         value: 1,
         type: "auto",
+        bought: false,
     },
     {
         name: "3",
@@ -71,6 +75,7 @@ let upgrades = [
         cost: 50,
         value: 5,
         type: "click",
+        bought: false,
     },
     {
         name: "4",
@@ -78,6 +83,7 @@ let upgrades = [
         cost: 500,
         value: 5,
         type: "auto",
+        bought: false,
     },
     {
         name: "5",
@@ -85,6 +91,7 @@ let upgrades = [
         cost: 1000,
         value: 10,
         type: "click",
+        bought: false,
     },
     {
         name: "6",
@@ -92,6 +99,7 @@ let upgrades = [
         cost: 5000,
         value: 10,
         type: "auto",
+        bought: false,
     },
     {
         name: "7",
@@ -99,6 +107,7 @@ let upgrades = [
         cost: 10000,
         value: 15,
         type: "click",
+        bought: false,
     },
     {
         name: "8",
@@ -106,6 +115,22 @@ let upgrades = [
         cost: 50000,
         value: 15,
         type: "auto",
+        bought: false,
+    },
+    {
+        name: "Crit power",
+        image: "",
+        cost: 1000,
+        value: 0.5,
+        type: "crit",
+        bought: false,
+    },
+    {
+        name: "fishin game",
+        image: "",
+        bought: false,
+        cost: 100000,
+        type: "Fish_game",
     },
 ]
 
@@ -206,7 +231,7 @@ function upgrades_update () {
             <button onclick="buyUpgrade('${upgrade.name}', event)">Cost: $${upgrade.cost}</button>
         </div>
     `
-    if (upgrade.cost <= counter) {
+    if (upgrade.cost <= counter && upgrade.bought === false) {
         cards.innerHTML += cardHTML
     } 
     })
@@ -219,11 +244,16 @@ function buyUpgrade(name, event) {
     if (counter >= item.cost) {
         counter -= item.cost
         item.cost = Math.round(item.cost*1.5)
-
+        
         if (item.type === "click") {
             click_power += item.value*lvl
         } else if (item.type === "auto") {
             afk += item.value*lvl
+        } else if (item.type === "Fish_game") {
+            item.bought = true
+            mini_game_div.style.display = "block"
+        } else if (item.type === "crit") {
+            crit_giver += item.value
         }
         score.innerText = Math.floor(counter)
         button.innerHTML = `Cost: $${item.cost}`
@@ -234,9 +264,9 @@ function buyUpgrade(name, event) {
 document.addEventListener("DOMContentLoaded", () => {
     const clicker_div_height = clicker_div.offsetHeight
     upgrades_div.style.marginTop = `${clicker_div_height+3}px`
+    mini_game_div.style.display = `none`
     score.innerText = Math.floor(counter)
     upgrades_update()
-    start_fish()
     if (assend_status==false) {
     assend.style.display = "none"
     main_game.style.display = "block"
@@ -254,9 +284,9 @@ clicker.addEventListener("click", (event) => {
         clicker.style.transform = "scale(1)"
     }, 50)
     if (crit < 0.05) {
-        counter = click_power*2 + counter
+        counter = click_power*crit_giver + counter
         floating_num.classList.add("floarting_num_crit")
-        floating_num.innerText = `+${click_power*2}`
+        floating_num.innerText = `+${click_power*crit_giver}`
     } else {
         counter = click_power + counter
         floating_num.classList.add("floating_num")
