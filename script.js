@@ -28,26 +28,28 @@ let assend_status = false
 let starter_assend_value = 1000000*lvl
 let random_event = ["2x", "2less upgrade", "0.5 Taxes", "-all afk"]
 let crit_giver = 2
+let previous_1 = afk
+let previous_2 = click_power
 
 let fishes = [
     {
         name: "",
-        value: 10*click_power,
+        value: 10,
         rarity: 0.5,
     },
     {
         name: "",
-        value: 50*click_power,
+        value: 50,
         rarity: 0.3,
     },
     {
         name: "",
-        value: 150*click_power,
+        value: 150,
         rarity: 0.15,
     },
     {
         name: "",
-        value: 800*click_power,
+        value: 800,
         rarity: 0.05,
     },
 ]
@@ -129,8 +131,43 @@ let upgrades = [
         name: "fishin game",
         image: "",
         bought: false,
-        cost: 100000,
+        cost: 1000,
         type: "Fish_game",
+    },
+    {
+        name: "lasis",
+        image: "https://www.latvijasdaba.lv/content/zivis/salmo-salar-l-420x300.jpg",
+        bought: false,
+        cost: 1000,
+        type: "lasis",
+    },
+    {
+        name: "plicis",
+        image: "https://www.latvijasdaba.lv/content/zivis/blicca-bjoerkna-l-420x300.jpg",
+        bought: false,
+        cost: 5000,
+        type: "plicis",
+    },
+    {
+        name: "akmeņgrauzis",
+        image: "https://www.latvijasdaba.lv/content/zivis/cobitis-taenia-l-420x300.jpg",
+        bought: false,
+        cost: 10000,
+        type: "akmeņgrauzis",
+    },
+    {
+        name: "nigliņš",
+        image: "https://www.latvijasdaba.lv/content/zivis/hyperoplus-lanceolatus-le-sauvage-420x300.jpg",
+        bought: false,
+        cost: 50000,
+        type: "nigliņš",
+    },
+    {
+        name: "sams",
+        image: "https://www.latvijasdaba.lv/content/zivis/silurus-glanis-l-420x300.jpg",
+        bought: false,
+        cost: 100000,
+        type: "sams",
     },
 ]
 
@@ -174,21 +211,74 @@ function fish_escape() {
 function cought() {
     clearInterval(hp_interval)
     mini_game_active = false
-    counter += current_fish.value*lvl
+    counter += current_fish.value*lvl*click_power
     score.innerText = Math.floor(counter)
     man_img.src = "imgs/1.png"
     upgrades_update()
     setTimeout(() => {start_fish()}, 2000)
 }
 
-function assending() {
-    lvl += 1
+function assendtion_process() {
+    counter = 0
+    click_power = 1
+    afk = 0
+    crit_giver = 2
+    starter_assend_value = 1000000 * lvl
+    clicker.src = "https://res.cloudinary.com/teepublic/image/private/s--Mncu2r6i--/t_Preview/b_rgb:000000,c_lpad,f_jpg,h_630,q_90,w_1200/v1750944117/production/designs/76787070_0.jpg"
+    score.innerText = counter
+    upgrades.forEach(item => {
+        item.bought = false
+        
+        if (item.name === "1") {
+            item.cost = 10
+        } else if (item.name === "2") {
+            item.cost = 100
+        } else if (item.name === "3") {
+            item.cost = 50
+        } else if (item.name === "4") {
+            item.cost = 500
+        } else if (item.name === "5") {
+            item.cost = 1000
+        } else if (item.name === "6") {
+            item.cost = 5000
+        } else if (item.name === "7") {
+            item.cost = 10000
+        } else if (item.name === "8") {
+            item.cost = 50000
+        } else if (item.type === "crit") {
+            item.cost = 1000
+        } else if (item.type === "Fish_game") {
+            item.cost = 1000
+        } else if (item.type === "lasis") {
+            item.cost = 1000
+        } else if (item.type === "plicis") {
+            item.cost = 5000
+        } else if (item.type === "akmeņgrauzis") {
+            item.cost = 10000
+        } else if (item.type === "nigliņš") {
+            item.cost = 50000
+        } else if (item.type === "sams") {
+            item.cost = 100000
+        }
+    })
+    upgrades_update()
+
+    clearInterval(hp_interval)
+    mini_game_active = false
+    mini_game_div.style.display = "none"
+    man_img.src = "imgs/1.png"
+    
+    let clicker_div_height = clicker_div.offsetHeight
+    upgrades_div.style.marginTop = `${clicker_div_height + 3}px`
+
+    assend.style.display = "none"
+    main_game.style.display = "block"
 }
 
 function events_giver() {
     let buff_debuff = random_event[Math.floor(Math.random()*random_event.length)]
-    let previous_1 = afk
-    let previous_2 = click_power
+    previous_1 = afk
+    previous_2 = click_power
     if (buff_debuff == "2x") {
         afk *= 2
         click_power *= 2
@@ -211,12 +301,15 @@ function events_giver() {
         cur_event.innerText = "Event: half ur score"
         counter = Math.floor(counter / 2)
         score.innerText = counter
+        setTimeout(() => {
+            cur_event.innerText = "Event: None"
+        }, 5000)
     } else {
         cur_event.innerText = "Event: take away all passiv income"
         afk -= afk
         setTimeout(() => {
             cur_event.innerText = "Event: None"
-        }, 1000)
+        }, 5000)
     }
 }
 
@@ -247,15 +340,23 @@ function buyUpgrade(name, event) {
         
         if (item.type === "click") {
             click_power += item.value*lvl
+            previous_2 += item.value*lvl
         } else if (item.type === "auto") {
             afk += item.value*lvl
+            previous_1 += item.value*lvl
         } else if (item.type === "Fish_game") {
             item.bought = true
-            mini_game_div.style.display = "block"
+            mini_game_div.style.display = "flex"
             clicker_div_height = clicker_div.offsetHeight
             upgrades_div.style.marginTop = `${clicker_div_height+3}px`
+            start_fish()
         } else if (item.type === "crit") {
             crit_giver += item.value
+        } else if (item.type === "lasis" || item.type === "plicis" || item.type === "akmeņgrauzis" || item.type === "nigliņš" || item.type === "sams") {
+            item.bought = true
+            click_power *= 2
+            afk *= 2
+            clicker.src = item.image
         }
         score.innerText = Math.floor(counter)
         button.innerHTML = `Cost: $${item.cost}`
@@ -273,7 +374,7 @@ document.addEventListener("DOMContentLoaded", () => {
     assend.style.display = "none"
     main_game.style.display = "block"
     } else {
-        assend.style.display = "block"
+        assend.style.display = "flex"
         main_game.style.display = "none"
     }
 })
@@ -304,14 +405,56 @@ clicker.addEventListener("click", (event) => {
     score.innerText = Math.floor(counter)
 })
 
-assend_btn.addEventListener("click", () => {
-    if (counter >= starter_assend_value) {
+assend_btn.addEventListener("click", (event) => {
+    if (counter >= starter_assend_value*lvl) {
         assend.style.display = "block"
         main_game.style.display = "none"
+        afk = 0
+        lvl += 1
     } else {
-        assend_btn.classList.add('error')
+        event.target.classList.add('error')
         setTimeout(() => {
-            assend_btn.classList.remove('error')
+            event.target.classList.remove('error')
+        }, 150)
+    }
+})
+lvl2_btn.addEventListener("click", (event) => {
+    if (lvl == lvl2_btn.value) {
+        assendtion_process()
+    } else {
+        event.target.classList.add('error_1')
+        setTimeout(() => {
+            event.target.classList.remove('error_1')
+        }, 150)
+    }
+})
+lvl3_btn.addEventListener("click", (event) => {
+    if (lvl == lvl3_btn.value) {
+        assendtion_process()
+    } else {
+        event.target.classList.add('error_1')
+        setTimeout(() => {
+            event.target.classList.remove('error_1')
+        }, 150)
+    }
+})
+lvl4_btn.addEventListener("click", (event) => {
+    if (lvl == lvl4_btn.value) {
+        assendtion_process()
+    } else {
+        event.target.classList.add('error_1')
+        setTimeout(() => {
+            event.target.classList.remove('error_1')
+        }, 150)
+    }
+})
+lvl5_btn.addEventListener("click", (event) => {
+    if (lvl == lvl5_btn.value) {
+        assendtion_process()
+    } else {
+        event.target.classList.add('error_1')
+        setTimeout(() => {
+            event.target.classList.remove('error_1')
         }, 150)
     }
 })
