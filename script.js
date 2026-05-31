@@ -507,7 +507,7 @@ setInterval(() => {
         const spawn = score.getBoundingClientRect()
         const floating_down = document.createElement("div")
         if (crit < 0.05 && crit_CPS) {
-            counter = Math.floor(counter*crit)
+            counter = Math.floor(counter*crit_giver)
             floating_down.classList.add("floating_down")
             floating_down.innerText = `+${formatNumber(counter)}`
         } else {
