@@ -25,30 +25,27 @@ let click_power = 1
 let afk = 0
 let lvl = 1
 let assend_status = false
-let starter_assend_value = 1000000*lvl
+let starter_assend_value = 1e6*lvl
 let random_event = ["2x", "2less upgrade", "0.5 Taxes", "-all afk"]
 let crit_giver = 2
 let previous_1 = afk
 let previous_2 = click_power
+let crit_CPS = false
 
 let fishes = [
     {
-        name: "",
         value: 10,
         rarity: 0.5,
     },
     {
-        name: "",
         value: 50,
         rarity: 0.3,
     },
     {
-        name: "",
         value: 150,
         rarity: 0.15,
     },
     {
-        name: "",
         value: 800,
         rarity: 0.05,
     },
@@ -135,6 +132,13 @@ let upgrades = [
         type: "Fish_game",
     },
     {
+        name: "add crit to CPS",
+        image: "",
+        bought: false,
+        cost: 5000,
+        type: "CPS_crit",
+    },
+    {
         name: "lasis",
         image: "https://www.latvijasdaba.lv/content/zivis/salmo-salar-l-420x300.jpg",
         bought: false,
@@ -212,20 +216,42 @@ function cought() {
     clearInterval(hp_interval)
     mini_game_active = false
     counter += current_fish.value*lvl*click_power
-    score.innerText = Math.floor(counter)
+    updateDisplay()
     man_img.src = "imgs/1.png"
     upgrades_update()
     setTimeout(() => {start_fish()}, 2000)
 }
 
+function formatNumber(the_counter) {
+    if (the_counter >= 1e15) {
+        return (the_counter / 1e15).toFixed(1) + "Q"
+    }else if (the_counter >= 1e12) {
+        return (the_counter / 1e12).toFixed(1) + "T"
+    }else if (the_counter >= 1e9)  {
+        return (the_counter / 1e9).toFixed(1) + "B"
+    }else if (the_counter >= 1e6)  {
+        return (the_counter / 1e6).toFixed(1) + "M"
+    }else if (the_counter >= 1e3)  {
+        return (the_counter / 1e3).toFixed(1) + "K"
+    }else {
+        return Math.floor(the_counter).toString()
+    }
+}
+
+function updateDisplay() {
+    counter = Math.floor(counter)
+    score.innerText = formatNumber(counter)
+}
+
 function assendtion_process() {
+    crit_CPS = false
     counter = 0
     click_power = 1
     afk = 0
     crit_giver = 2
-    starter_assend_value = 1000000 * lvl
+    starter_assend_value = 1e6 * lvl
     clicker.src = "https://res.cloudinary.com/teepublic/image/private/s--Mncu2r6i--/t_Preview/b_rgb:000000,c_lpad,f_jpg,h_630,q_90,w_1200/v1750944117/production/designs/76787070_0.jpg"
-    score.innerText = counter
+    updateDisplay()
     upgrades.forEach(item => {
         item.bought = false
         
@@ -249,6 +275,8 @@ function assendtion_process() {
             item.cost = 1000
         } else if (item.type === "Fish_game") {
             item.cost = 1000
+        } else if (item.type === "CPS_crit") {
+            item.cost = 5000
         } else if (item.type === "lasis") {
             item.cost = 1000
         } else if (item.type === "plicis") {
@@ -300,7 +328,7 @@ function events_giver() {
     } else if (buff_debuff == "0.5 Taxes") {
         cur_event.innerText = "Event: half ur score"
         counter = Math.floor(counter / 2)
-        score.innerText = counter
+        updateDisplay()
         setTimeout(() => {
             cur_event.innerText = "Event: None"
         }, 5000)
@@ -352,13 +380,16 @@ function buyUpgrade(name, event) {
             start_fish()
         } else if (item.type === "crit") {
             crit_giver += item.value
-        } else if (item.type === "lasis" || item.type === "plicis" || item.type === "akmeņgrauzis" || item.type === "nigliņš" || item.type === "sams") {
+        } else if (item.type === "CPS_crit") {
+            crit_CPS = true
+            item.bought = true
+        }else if (item.type === "lasis" || item.type === "plicis" || item.type === "akmeņgrauzis" || item.type === "nigliņš" || item.type === "sams") {
             item.bought = true
             click_power *= 2
             afk *= 2
             clicker.src = item.image
         }
-        score.innerText = Math.floor(counter)
+        updateDisplay()
         button.innerHTML = `Cost: $${item.cost}`
         upgrades_update()
     }
@@ -368,7 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mini_game_div.style.display = `none`
     let clicker_div_height = clicker_div.offsetHeight
     upgrades_div.style.marginTop = `${clicker_div_height+3}px`
-    score.innerText = Math.floor(counter)
+    updateDisplay()
     upgrades_update()
     if (assend_status==false) {
     assend.style.display = "none"
@@ -402,12 +433,12 @@ clicker.addEventListener("click", (event) => {
         floating_num.remove()
     }, 500)
     upgrades_update()
-    score.innerText = Math.floor(counter)
+    updateDisplay()
 })
 
 assend_btn.addEventListener("click", (event) => {
     if (counter >= starter_assend_value*lvl) {
-        assend.style.display = "block"
+        assend.style.display = "flex"
         main_game.style.display = "none"
         afk = 0
         lvl += 1
@@ -471,12 +502,19 @@ mini_game_div.addEventListener("click", () => {
 
 setInterval(() => {
     if (afk > 0) {
-        counter += afk
+        let crit = Math.random()
         let random_number = Math.random()
         const spawn = score.getBoundingClientRect()
         const floating_down = document.createElement("div")
-        floating_down.classList.add("floating_down")
-        floating_down.innerText = `+${afk}`
+        if (crit < 0.5 && crit_CPS) {
+            counter = Math.floor(counter*crit)
+            floating_down.classList.add("floating_down")
+            floating_down.innerText = `+${Math.floor(counter*crit)}`
+        } else {
+            counter += afk
+            floating_down.classList.add("floating_down")
+            floating_down.innerText = `+${afk}`
+        }
         floating_down.style.left = `${spawn.left+(Math.random()-0.5)*spawn.width}px`
         floating_down.style.top = `${spawn.bottom}px`
         document.body.appendChild(floating_down)
@@ -486,7 +524,7 @@ setInterval(() => {
         if (random_number < 0.01) {
             events_giver()
         }
-        score.innerText = Math.floor(counter)
+        updateDisplay()
         upgrades_update()
     }
 }, 1000)
