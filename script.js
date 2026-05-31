@@ -216,7 +216,7 @@ function cought() {
     clearInterval(hp_interval)
     mini_game_active = false
     counter += current_fish.value*lvl*click_power
-    updateDisplay()
+    updateDisplay(counter)
     man_img.src = "imgs/1.png"
     upgrades_update()
     setTimeout(() => {start_fish()}, 2000)
@@ -239,8 +239,8 @@ function formatNumber(the_counter) {
 }
 
 function updateDisplay(number) {
-    counter = Math.floor(number)
-    score.innerText = formatNumber(number)
+    let floored_counter = Math.floor(number)
+    score.innerText = formatNumber(floored_counter)
 }
 
 function assendtion_process() {
