@@ -238,9 +238,9 @@ function formatNumber(the_counter) {
     }
 }
 
-function updateDisplay() {
-    counter = Math.floor(counter)
-    score.innerText = formatNumber(counter)
+function updateDisplay(number) {
+    counter = Math.floor(number)
+    score.innerText = formatNumber(number)
 }
 
 function assendtion_process() {
@@ -251,7 +251,7 @@ function assendtion_process() {
     crit_giver = 2
     starter_assend_value = 1e6 * lvl
     clicker.src = "https://res.cloudinary.com/teepublic/image/private/s--Mncu2r6i--/t_Preview/b_rgb:000000,c_lpad,f_jpg,h_630,q_90,w_1200/v1750944117/production/designs/76787070_0.jpg"
-    updateDisplay()
+    updateDisplay(counter)
     upgrades.forEach(item => {
         item.bought = false
         
@@ -328,7 +328,7 @@ function events_giver() {
     } else if (buff_debuff == "0.5 Taxes") {
         cur_event.innerText = "Event: half ur score"
         counter = Math.floor(counter / 2)
-        updateDisplay()
+        updateDisplay(counter)
         setTimeout(() => {
             cur_event.innerText = "Event: None"
         }, 5000)
@@ -389,7 +389,7 @@ function buyUpgrade(name, event) {
             afk *= 2
             clicker.src = item.image
         }
-        updateDisplay()
+        updateDisplay(counter)
         button.innerHTML = `Cost: $${item.cost}`
         upgrades_update()
     }
@@ -399,7 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mini_game_div.style.display = `none`
     let clicker_div_height = clicker_div.offsetHeight
     upgrades_div.style.marginTop = `${clicker_div_height+3}px`
-    updateDisplay()
+    updateDisplay(counter)
     upgrades_update()
     if (assend_status==false) {
     assend.style.display = "none"
@@ -420,11 +420,11 @@ clicker.addEventListener("click", (event) => {
     if (crit < 0.05) {
         counter = click_power*crit_giver + counter
         floating_num.classList.add("floarting_num_crit")
-        floating_num.innerText = `+${click_power*crit_giver}`
+        floating_num.innerText = `+${formatNumber(click_power*crit_giver)}`
     } else {
         counter = click_power + counter
         floating_num.classList.add("floating_num")
-        floating_num.innerText = `+${click_power}`
+        floating_num.innerText = `+${formatNumber(click_power)}`
     }
     floating_num.style.left = `${event.clientX-Math.random()*20}px`
     floating_num.style.top = `${event.clientY-Math.random()*10}px`
@@ -433,7 +433,7 @@ clicker.addEventListener("click", (event) => {
         floating_num.remove()
     }, 500)
     upgrades_update()
-    updateDisplay()
+    updateDisplay(counter)
 })
 
 assend_btn.addEventListener("click", (event) => {
@@ -509,11 +509,11 @@ setInterval(() => {
         if (crit < 0.5 && crit_CPS) {
             counter = Math.floor(counter*crit)
             floating_down.classList.add("floating_down")
-            floating_down.innerText = `+${Math.floor(counter*crit)}`
+            floating_down.innerText = `+${formatNumber(counter)}`
         } else {
             counter += afk
             floating_down.classList.add("floating_down")
-            floating_down.innerText = `+${afk}`
+            floating_down.innerText = `+${formatNumber(afk)}`
         }
         floating_down.style.left = `${spawn.left+(Math.random()-0.5)*spawn.width}px`
         floating_down.style.top = `${spawn.bottom}px`
@@ -524,7 +524,7 @@ setInterval(() => {
         if (random_number < 0.01) {
             events_giver()
         }
-        updateDisplay()
+        updateDisplay(counter)
         upgrades_update()
     }
 }, 1000)
