@@ -30,6 +30,7 @@ let counter = 0
 let click_power = 1
 let afk = 0
 let lvl = 1
+let debuffer = lvl*1e3
 let ascend_status = false
 let starter_ascend_value = 1e6
 let random_event = ["2x", "2less upgrade", "0.5 Taxes", "-all afk"]
@@ -293,12 +294,12 @@ function ascension_process() {
     keeper_cr = false
     crit_CPS = false
     counter = 0
-    starter_ascend_value = 1e6 * lvl
+    starter_ascend_value = 1e6 * lvl * debuffer
     clicker.src = "https://res.cloudinary.com/teepublic/image/private/s--Mncu2r6i--/t_Preview/b_rgb:000000,c_lpad,f_jpg,h_630,q_90,w_1200/v1750944117/production/designs/76787070_0.jpg"
     updateDisplay(counter)
     upgrades.forEach(item => {
         item.bought = false
-        item.cost = item.baseCost
+        item.cost = item.baseCost * debuffer
     })
     upgrades_update()
 
