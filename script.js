@@ -1,10 +1,10 @@
 const clicker = document.getElementById("click")
 const cards = document.getElementById("cards")
 const score = document.getElementById("score")
-const assend_btn = document.getElementById("assend_btn")
+const ascend_btn = document.getElementById("ascend_btn")
 const cur_event = document.getElementById("curr_event")
 const main_game = document.getElementById("main_game")
-const assend = document.getElementById("assend")
+const ascend = document.getElementById("ascend")
 const man_img = document.getElementById("man")
 const fish_hp = document.getElementById("fish_hp")
 const clicker_div = document.getElementsByClassName("not_srolable")[0]
@@ -13,12 +13,12 @@ const mini_game_div = document.getElementsByClassName("mini_game")[0]
 const keep_crit = document.getElementById("keep_crit")
 const keep_click_power = document.getElementById("keep_click_power")
 const keep_afk = document.getElementById("keep_afk")
-const lvl2_btn = document.getElementById("lvl2")
-const lvl3_btn = document.getElementById("lvl3")
-const lvl4_btn = document.getElementById("lvl4")
-const lvl5_btn = document.getElementById("lvl5")
+const ascend_tier2_btn = document.getElementById("ascend_tier2")
+const ascend_tier3_btn = document.getElementById("ascend_tier3")
+const ascend_tier4_btn = document.getElementById("ascend_tier4")
+const ascend_tier5_btn = document.getElementById("ascend_tier5")
 
-let preveous_assend = [0, 0, 0]
+let preveous_ascend = [0, 0, 0]
 let keep_a = 1
 let keep_cl_pw = 1
 let keep_cr = 1
@@ -30,8 +30,8 @@ let counter = 0
 let click_power = 1
 let afk = 0
 let lvl = 1
-let assend_status = false
-let starter_assend_value = 1e6
+let ascend_status = false
+let starter_ascend_value = 1e6
 let random_event = ["2x", "2less upgrade", "0.5 Taxes", "-all afk"]
 let crit_giver = 2
 let previous_1 = afk
@@ -62,7 +62,7 @@ let fishes = [
 
 let upgrades = [
     {
-        name: "1",
+        name: "Buy 1 line for rod",
         image: "",
         cost: 10,
         value: 1,
@@ -70,7 +70,7 @@ let upgrades = [
         bought: false,
     },
     {
-        name: "2",
+        name: "Buy 1 Fisherman",
         image: "",
         cost: 100,
         value: 1,
@@ -78,7 +78,7 @@ let upgrades = [
         bought: false,
     },
     {
-        name: "3",
+        name: "Buy 5 baits",
         image: "",
         cost: 50,
         value: 5,
@@ -86,7 +86,7 @@ let upgrades = [
         bought: false,
     },
     {
-        name: "4",
+        name: "Buy 5 Fisherman",
         image: "",
         cost: 500,
         value: 5,
@@ -94,7 +94,7 @@ let upgrades = [
         bought: false,
     },
     {
-        name: "5",
+        name: "Buy 10 rods",
         image: "",
         cost: 1000,
         value: 10,
@@ -102,7 +102,7 @@ let upgrades = [
         bought: false,
     },
     {
-        name: "6",
+        name: "Buy 10 bait for Fisherman",
         image: "",
         cost: 5000,
         value: 10,
@@ -110,7 +110,7 @@ let upgrades = [
         bought: false,
     },
     {
-        name: "7",
+        name: "Buy 15 Bait",
         image: "",
         cost: 10000,
         value: 15,
@@ -118,7 +118,7 @@ let upgrades = [
         bought: false,
     },
     {
-        name: "8",
+        name: "Buy 15 Fisherman",
         image: "",
         cost: 50000,
         value: 15,
@@ -151,35 +151,35 @@ let upgrades = [
         name: "lasis",
         image: "https://www.latvijasdaba.lv/content/zivis/salmo-salar-l-420x300.jpg",
         bought: false,
-        cost: 1000,
+        cost: 5000,
         type: "lasis",
     },
     {
         name: "plicis",
         image: "https://www.latvijasdaba.lv/content/zivis/blicca-bjoerkna-l-420x300.jpg",
         bought: false,
-        cost: 5000,
+        cost: 10000,
         type: "plicis",
     },
     {
         name: "akmeņgrauzis",
         image: "https://www.latvijasdaba.lv/content/zivis/cobitis-taenia-l-420x300.jpg",
         bought: false,
-        cost: 10000,
+        cost: 50000,
         type: "akmeņgrauzis",
     },
     {
         name: "nigliņš",
         image: "https://www.latvijasdaba.lv/content/zivis/hyperoplus-lanceolatus-le-sauvage-420x300.jpg",
         bought: false,
-        cost: 50000,
+        cost: 100000,
         type: "nigliņš",
     },
     {
         name: "sams",
         image: "https://www.latvijasdaba.lv/content/zivis/silurus-glanis-l-420x300.jpg",
         bought: false,
-        cost: 100000,
+        cost: 500000,
         type: "sams",
     },
 ]
@@ -258,21 +258,21 @@ function updateDisplay(number) {
     score.innerText = formatNumber(floored_counter)
 }
 
-function assendtion_process() {
+function ascension_process() {
     if (keeper_cl) {
-        click_power = preveous_assend[1]
+        click_power = preveous_ascend[1]
         crit_giver = 2
         afk = 0
         keep_a = 0.5
         keep_cr = 0.5
     } else if (keeper_a) {
         click_power = 1
-        afk = preveous_assend[0]
+        afk = preveous_ascend[0]
         crit_giver = 2
         keep_cl_pw = 0.5
         keep_cr = 0.5
     } else if (keeper_cr) {
-        crit_giver = preveous_assend[2]
+        crit_giver = preveous_ascend[2]
         afk = 0
         click_power = 1
         keep_cl_pw = 0.5
@@ -283,7 +283,7 @@ function assendtion_process() {
     keeper_cr = false
     crit_CPS = false
     counter = 0
-    starter_assend_value = 1e6 * lvl
+    starter_ascend_value = 1e6 * lvl
     clicker.src = "https://res.cloudinary.com/teepublic/image/private/s--Mncu2r6i--/t_Preview/b_rgb:000000,c_lpad,f_jpg,h_630,q_90,w_1200/v1750944117/production/designs/76787070_0.jpg"
     updateDisplay(counter)
     upgrades.forEach(item => {
@@ -312,15 +312,15 @@ function assendtion_process() {
         } else if (item.type === "CPS_crit") {
             item.cost = 5000
         } else if (item.type === "lasis") {
-            item.cost = 1000
-        } else if (item.type === "plicis") {
             item.cost = 5000
-        } else if (item.type === "akmeņgrauzis") {
+        } else if (item.type === "plicis") {
             item.cost = 10000
-        } else if (item.type === "nigliņš") {
+        } else if (item.type === "akmeņgrauzis") {
             item.cost = 50000
-        } else if (item.type === "sams") {
+        } else if (item.type === "nigliņš") {
             item.cost = 100000
+        } else if (item.type === "sams") {
+            item.cost = 500000
         }
     })
     upgrades_update()
@@ -330,10 +330,10 @@ function assendtion_process() {
     mini_game_div.style.display = "none"
     man_img.src = "imgs/1.png"
     
-    let clicker_div_height = clicker_div.offsetHeight
+    clicker_div_height = clicker_div.offsetHeight
     upgrades_div.style.marginTop = `${clicker_div_height + 3}px`
 
-    assend.style.display = "none"
+    ascend.style.display = "none"
     main_game.style.display = "block"
 }
 
@@ -433,14 +433,14 @@ document.addEventListener("DOMContentLoaded", () => {
     mini_game_div.style.display = `none`
     let clicker_div_height = clicker_div.offsetHeight
     upgrades_div.style.marginTop = `${clicker_div_height+3}px`
-    assend_btn.innerText = `Assention: ${starter_assend_value}`
+    ascend_btn.innerText = `Ascension: ${starter_ascend_value}`
     updateDisplay(counter)
     upgrades_update()
-    if (assend_status==false) {
-    assend.style.display = "none"
+    if (ascend_status==false) {
+    ascend.style.display = "none"
     main_game.style.display = "block"
     } else {
-        assend.style.display = "flex"
+        ascend.style.display = "flex"
         main_game.style.display = "none"
     }
 })
@@ -471,14 +471,14 @@ clicker.addEventListener("click", (event) => {
     updateDisplay(counter)
 })
 
-assend_btn.addEventListener("click", (event) => {
-    if (counter >= starter_assend_value) {
-        assend.style.display = "flex"
+ascend_btn.addEventListener("click", (event) => {
+    if (counter >= starter_ascend_value) {
+        ascend.style.display = "flex"
         main_game.style.display = "none"
-        assend_btn.innerText = `Assention: ${starter_assend_value*lvl}`
-        preveous_assend[0] = afk
-        preveous_assend[1] = click_power
-        preveous_assend[2] = crit_giver
+        ascend_btn.innerText = `Ascension: ${starter_ascend_value*lvl}`
+        preveous_ascend[0] = afk
+        preveous_ascend[1] = click_power
+        preveous_ascend[2] = crit_giver
         afk = 0
         lvl += 1
     } else {
@@ -488,9 +488,9 @@ assend_btn.addEventListener("click", (event) => {
         }, 150)
     }
 })
-lvl2_btn.addEventListener("click", (event) => {
-    if (lvl == lvl2_btn.value && (keeper_a === true || keeper_cl === true || keeper_cr === true)) {
-        assendtion_process()
+ascend_tier2_btn.addEventListener("click", (event) => {
+    if (lvl == ascend_tier2_btn.value && (keeper_a === true || keeper_cl === true || keeper_cr === true)) {
+        ascension_process()
     } else {
         event.target.classList.add('error_1')
         setTimeout(() => {
@@ -498,9 +498,9 @@ lvl2_btn.addEventListener("click", (event) => {
         }, 150)
     }
 })
-lvl3_btn.addEventListener("click", (event) => {
-    if (lvl == lvl3_btn.value && (keeper_a === true || keeper_cl === true || keeper_cr === true)) {
-        assendtion_process()
+ascend_tier3_btn.addEventListener("click", (event) => {
+    if (lvl == ascend_tier3_btn.value && (keeper_a === true || keeper_cl === true || keeper_cr === true)) {
+        ascension_process()
     } else {
         event.target.classList.add('error_1')
         setTimeout(() => {
@@ -508,9 +508,9 @@ lvl3_btn.addEventListener("click", (event) => {
         }, 150)
     }
 })
-lvl4_btn.addEventListener("click", (event) => {
-    if (lvl == lvl4_btn.value && (keeper_a === true || keeper_cl === true || keeper_cr === true)) {
-        assendtion_process()
+ascend_tier4_btn.addEventListener("click", (event) => {
+    if (lvl == ascend_tier4_btn.value && (keeper_a === true || keeper_cl === true || keeper_cr === true)) {
+        ascension_process()
     } else {
         event.target.classList.add('error_1')
         setTimeout(() => {
@@ -518,9 +518,9 @@ lvl4_btn.addEventListener("click", (event) => {
         }, 150)
     }
 })
-lvl5_btn.addEventListener("click", (event) => {
-    if (lvl == lvl5_btn.value && (keeper_a === true || keeper_cl === true || keeper_cr === true)) {
-        assendtion_process()
+ascend_tier5_btn.addEventListener("click", (event) => {
+    if (lvl == ascend_tier5_btn.value && (keeper_a === true || keeper_cl === true || keeper_cr === true)) {
+        ascension_process()
     } else {
         event.target.classList.add('error_1')
         setTimeout(() => {

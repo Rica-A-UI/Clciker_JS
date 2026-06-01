@@ -7,7 +7,7 @@ body {
     margin: 0;
     padding: 0;
 }
-#assend_btn {
+#ascend_btn {
     height: 25px;
     width: auto;
     border: none;
@@ -17,7 +17,7 @@ body {
     border-radius: 20%;
     transition: 15ms;
 }
-#assend_btn:hover {
+#ascend_btn:hover {
     color: rgba(0, 0, 0, 1);
     background: rgba(255, 255, 255, 1);
 }
@@ -189,7 +189,7 @@ article {
 }
 
 
-#assend {
+#ascend {
     margin: 0;
     height: 100vh;
     width: 100%;
@@ -197,31 +197,31 @@ article {
     justify-content: space-evenly;
     align-items: center;
 }
-#assend button {
+#ascend button {
     height: 200px;
     width: 200px;
-    font-size: 30px;
+    font-size: 22px;
     border-radius: 25%;
     cursor: pointer;
     background: linear-gradient(to top, rgba(0, 0, 255, 1) 0%, rgba(0, 0, 100, 1) 100%);
     transition: 15ms;
     color: white;
 }
-#assend button:hover {
+#ascend button:hover {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     transform: scale(1.1);
 }
-.assend_bonuses {
+.ascend_bonuses {
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
     gap: 30px;
 }
-.assend_bonuses p {
+.ascend_bonuses p {
     font-size: 2vh;
 }
-.assend_bonuses button:active {
+.ascend_bonuses button:active {
     scale: 1.1;
     background: linear-gradient(to top, rgba(0, 200, 0, 1) 0%, rgba(0, 50, 0, 1) 100%) !important;
 }
