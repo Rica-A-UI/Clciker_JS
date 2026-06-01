@@ -249,17 +249,23 @@ function cought() {
 }
 
 function formatNumber(the_counter) {
-    if (the_counter >= 1e15) {
+    if (the_counter >= 1e24) {
+        return (the_counter / 1e24).toFixed(1) + "Y"
+    } else if (the_counter >= 1e21) {
+        return (the_counter / 1e21).toFixed(1) + "Z"
+    } else if (the_counter >= 1e18) {
+        return (the_counter / 1e18).toFixed(1) + "E"
+    } else if (the_counter >= 1e15) {
         return (the_counter / 1e15).toFixed(1) + "Q"
-    }else if (the_counter >= 1e12) {
+    } else if (the_counter >= 1e12) {
         return (the_counter / 1e12).toFixed(1) + "T"
-    }else if (the_counter >= 1e9)  {
+    } else if (the_counter >= 1e9) {
         return (the_counter / 1e9).toFixed(1) + "B"
-    }else if (the_counter >= 1e6)  {
+    } else if (the_counter >= 1e6) {
         return (the_counter / 1e6).toFixed(1) + "M"
-    }else if (the_counter >= 1e3)  {
+    } else if (the_counter >= 1e3) {
         return (the_counter / 1e3).toFixed(1) + "K"
-    }else {
+    } else {
         return Math.floor(the_counter).toString()
     }
 }
@@ -453,7 +459,7 @@ ascend_btn.addEventListener("click", (event) => {
     if (counter >= starter_ascend_value) {
         ascend.style.display = "flex"
         main_game.style.display = "none"
-        ascend_btn.innerText = `Ascension: ${starter_ascend_value*lvl}`
+        ascend_btn.innerText = `Ascension: ${starter_ascend_value}`
         preveous_ascend[0] = afk
         preveous_ascend[1] = click_power
         preveous_ascend[2] = crit_giver
