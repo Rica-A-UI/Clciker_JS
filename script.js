@@ -10,12 +10,18 @@ const fish_hp = document.getElementById("fish_hp")
 const clicker_div = document.getElementsByClassName("not_srolable")[0]
 const upgrades_div = document.getElementsByClassName("upgrades")[0]
 const mini_game_div = document.getElementsByClassName("mini_game")[0]
-const clicker_place = document.getElementsByClassName("clicker_place")[0]
+const keep_crit = document.getElementById("keep_crit")
+const keep_click_power = document.getElementById("keep_click_power")
+const keep_afk = document.getElementById("keep_afk")
 const lvl2_btn = document.getElementById("lvl2")
 const lvl3_btn = document.getElementById("lvl3")
 const lvl4_btn = document.getElementById("lvl4")
 const lvl5_btn = document.getElementById("lvl5")
 
+let preveous_assend = [0, 0, 0]
+let keep_a = 1
+let keep_cl_pw = 1
+let keep_cr = 1
 let mini_game_active = false
 let current_fish = null
 let fish_health = 100
@@ -25,12 +31,15 @@ let click_power = 1
 let afk = 0
 let lvl = 1
 let assend_status = false
-let starter_assend_value = 1e6*lvl
+let starter_assend_value = 1e6
 let random_event = ["2x", "2less upgrade", "0.5 Taxes", "-all afk"]
 let crit_giver = 2
 let previous_1 = afk
 let previous_2 = click_power
 let crit_CPS = false
+let keeper_cl = false
+let keeper_cr = false
+let keeper_a = false
 
 let fishes = [
     {
@@ -215,7 +224,13 @@ function fish_escape() {
 function cought() {
     clearInterval(hp_interval)
     mini_game_active = false
-    counter += current_fish.value*lvl*click_power
+    let afk_giver = 0
+    if (afk === 0) {
+        afk_giver = 1
+    } else {
+        afk_giver = afk
+    }
+    counter += current_fish.value*lvl*click_power*keep_cl_pw*afk_giver*keep_a
     updateDisplay(counter)
     man_img.src = "imgs/1.png"
     upgrades_update()
@@ -244,11 +259,30 @@ function updateDisplay(number) {
 }
 
 function assendtion_process() {
+    if (keeper_cl) {
+        click_power = preveous_assend[1]
+        crit_giver = 2
+        afk = 0
+        keep_a = 0.5
+        keep_cr = 0.5
+    } else if (keeper_a) {
+        click_power = 1
+        afk = preveous_assend[0]
+        crit_giver = 2
+        keep_cl_pw = 0.5
+        keep_cr = 0.5
+    } else if (keeper_cr) {
+        crit_giver = preveous_assend[2]
+        afk = 0
+        click_power = 1
+        keep_cl_pw = 0.5
+        keep_a = 0.5
+    }
+    keeper_cl = false
+    keeper_a = false
+    keeper_cr = false
     crit_CPS = false
     counter = 0
-    click_power = 1
-    afk = 0
-    crit_giver = 2
     starter_assend_value = 1e6 * lvl
     clicker.src = "https://res.cloudinary.com/teepublic/image/private/s--Mncu2r6i--/t_Preview/b_rgb:000000,c_lpad,f_jpg,h_630,q_90,w_1200/v1750944117/production/designs/76787070_0.jpg"
     updateDisplay(counter)
@@ -333,8 +367,8 @@ function events_giver() {
             cur_event.innerText = "Event: None"
         }, 5000)
     } else {
-        cur_event.innerText = "Event: take away all passiv income"
-        afk -= afk
+        cur_event.innerText = "Event: take away all passiv income except 1"
+        afk -= (afk+1)
         setTimeout(() => {
             cur_event.innerText = "Event: None"
         }, 5000)
@@ -399,6 +433,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mini_game_div.style.display = `none`
     let clicker_div_height = clicker_div.offsetHeight
     upgrades_div.style.marginTop = `${clicker_div_height+3}px`
+    assend_btn.innerText = `Assention: ${starter_assend_value}`
     updateDisplay(counter)
     upgrades_update()
     if (assend_status==false) {
@@ -418,13 +453,13 @@ clicker.addEventListener("click", (event) => {
         clicker.style.transform = "scale(1)"
     }, 50)
     if (crit < 0.05) {
-        counter = click_power*crit_giver + counter
+        counter = click_power*crit_giver*keep_cr + counter
         floating_num.classList.add("floarting_num_crit")
-        floating_num.innerText = `+${formatNumber(click_power*crit_giver)}`
+        floating_num.innerText = `+${formatNumber(click_power*crit_giver*keep_cl_pw*keep_cr)}`
     } else {
         counter = click_power + counter
         floating_num.classList.add("floating_num")
-        floating_num.innerText = `+${formatNumber(click_power)}`
+        floating_num.innerText = `+${formatNumber(click_power*keep_cl_pw)}`
     }
     floating_num.style.left = `${event.clientX-Math.random()*20}px`
     floating_num.style.top = `${event.clientY-Math.random()*10}px`
@@ -437,9 +472,13 @@ clicker.addEventListener("click", (event) => {
 })
 
 assend_btn.addEventListener("click", (event) => {
-    if (counter >= starter_assend_value*lvl) {
+    if (counter >= starter_assend_value) {
         assend.style.display = "flex"
         main_game.style.display = "none"
+        assend_btn.innerText = `Assention: ${starter_assend_value*lvl}`
+        preveous_assend[0] = afk
+        preveous_assend[1] = click_power
+        preveous_assend[2] = crit_giver
         afk = 0
         lvl += 1
     } else {
@@ -450,7 +489,7 @@ assend_btn.addEventListener("click", (event) => {
     }
 })
 lvl2_btn.addEventListener("click", (event) => {
-    if (lvl == lvl2_btn.value) {
+    if (lvl == lvl2_btn.value && (keeper_a === true || keeper_cl === true || keeper_cr === true)) {
         assendtion_process()
     } else {
         event.target.classList.add('error_1')
@@ -460,7 +499,7 @@ lvl2_btn.addEventListener("click", (event) => {
     }
 })
 lvl3_btn.addEventListener("click", (event) => {
-    if (lvl == lvl3_btn.value) {
+    if (lvl == lvl3_btn.value && (keeper_a === true || keeper_cl === true || keeper_cr === true)) {
         assendtion_process()
     } else {
         event.target.classList.add('error_1')
@@ -470,7 +509,7 @@ lvl3_btn.addEventListener("click", (event) => {
     }
 })
 lvl4_btn.addEventListener("click", (event) => {
-    if (lvl == lvl4_btn.value) {
+    if (lvl == lvl4_btn.value && (keeper_a === true || keeper_cl === true || keeper_cr === true)) {
         assendtion_process()
     } else {
         event.target.classList.add('error_1')
@@ -480,7 +519,7 @@ lvl4_btn.addEventListener("click", (event) => {
     }
 })
 lvl5_btn.addEventListener("click", (event) => {
-    if (lvl == lvl5_btn.value) {
+    if (lvl == lvl5_btn.value && (keeper_a === true || keeper_cl === true || keeper_cr === true)) {
         assendtion_process()
     } else {
         event.target.classList.add('error_1')
@@ -488,6 +527,21 @@ lvl5_btn.addEventListener("click", (event) => {
             event.target.classList.remove('error_1')
         }, 150)
     }
+})
+keep_click_power.addEventListener("click", () => {
+    keeper_cl = true
+    keeper_cr = false
+    keeper_a = false
+})
+keep_crit.addEventListener("click", () => {
+    keeper_cr = true
+    keeper_a = false
+    keeper_cl = false
+})
+keep_afk.addEventListener("click", () => {
+    keeper_a = true
+    keeper_cl = false
+    keeper_cr = false
 })
 
 mini_game_div.addEventListener("click", () => {
@@ -507,13 +561,13 @@ setInterval(() => {
         const spawn = score.getBoundingClientRect()
         const floating_down = document.createElement("div")
         if (crit < 0.05 && crit_CPS) {
-            counter = Math.floor(counter*crit_giver)
+            counter += Math.floor(counter*crit_giver*keep_a*keep_cr)
             floating_down.classList.add("floating_down")
-            floating_down.innerText = `+${formatNumber(counter)}`
+            floating_down.innerText = `+${formatNumber(Math.floor(counter*crit_giver*keep_a*keep_cr))}`
         } else {
-            counter += afk
+            counter += Math.floor(afk*keep_a)
             floating_down.classList.add("floating_down")
-            floating_down.innerText = `+${formatNumber(afk)}`
+            floating_down.innerText = `+${formatNumber(Math.floor(afk*keep_a))}`
         }
         floating_down.style.left = `${spawn.left+(Math.random()-0.5)*spawn.width}px`
         floating_down.style.top = `${spawn.bottom}px`

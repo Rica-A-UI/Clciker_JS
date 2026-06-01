@@ -211,6 +211,20 @@ article {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     transform: scale(1.1);
 }
+.assend_bonuses {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 30px;
+}
+.assend_bonuses p {
+    font-size: 2vh;
+}
+.assend_bonuses button:active {
+    scale: 1.1;
+    background: linear-gradient(to top, rgba(0, 200, 0, 1) 0%, rgba(0, 50, 0, 1) 100%) !important;
+}
 .error_1 {
     background: linear-gradient(to top, rgb(136, 12, 12) 0%, rgba(63, 7, 7, 1) 100%) !important;
 }
