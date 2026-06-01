@@ -63,7 +63,7 @@ let fishes = [
 let upgrades = [
     {
         name: "Buy 1 line for rod",
-        image: "",
+        image: "data:image/png;base64,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",
         cost: 10,
         baseCost: 10,
         value: 1,
@@ -72,7 +72,7 @@ let upgrades = [
     },
     {
         name: "Buy 1 Fisherman",
-        image: "",
+        image: "https://i.redd.it/9wem8aukpwpx.png",
         cost: 100,
         baseCost: 100,
         value: 1,
@@ -81,7 +81,7 @@ let upgrades = [
     },
     {
         name: "Buy 5 baits",
-        image: "",
+        image: "data:image/png;base64,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",
         cost: 50,
         baseCost: 50,
         value: 5,
@@ -90,7 +90,7 @@ let upgrades = [
     },
     {
         name: "Buy 5 Fisherman",
-        image: "",
+        image: "https://media.istockphoto.com/id/831712542/vector/vector-pixel-art-cartoon.jpg?s=1024x1024&w=is&k=20&c=ChySGEiLpj_QPdqPT8-jgqMI-KoTGqhZOGY5U78f89w=",
         cost: 500,
         baseCost: 500,
         value: 5,
@@ -99,7 +99,7 @@ let upgrades = [
     },
     {
         name: "Buy 10 rods",
-        image: "",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkb6P-9jQXSW-yHdevGX2Oxug8_yBGitUwHg&s",
         cost: 1000,
         baseCost: 1000,
         value: 10,
@@ -108,7 +108,7 @@ let upgrades = [
     },
     {
         name: "Buy 10 bait for Fisherman",
-        image: "",
+        image: "https://static.vecteezy.com/system/resources/previews/056/636/732/non_2x/pixel-art-illustration-worm-bait-pixelated-fishing-bait-earth-worm-fishing-bait-icon-pixelated-for-the-pixel-art-game-and-icon-for-website-and-game-free-vector.jpg",
         cost: 5000,
         baseCost: 5000,
         value: 10,
@@ -117,7 +117,7 @@ let upgrades = [
     },
     {
         name: "Buy 15 Bait",
-        image: "",
+        image: "https://static.wikia.nocookie.net/portalworldsgame/images/9/9c/Striped_Spoon.png/revision/latest/smart/width/250/height/250?cb=20190611121804",
         cost: 10000,
         baseCost: 10000,
         value: 15,
@@ -126,7 +126,7 @@ let upgrades = [
     },
     {
         name: "Buy 15 Fisherman",
-        image: "",
+        image: "https://www.shutterstock.com/image-vector/pixel-art-fishing-paddle-boat-260nw-2444286589.jpg",
         cost: 50000,
         baseCost: 50000,
         value: 15,
@@ -134,8 +134,8 @@ let upgrades = [
         bought: false,
     },
     {
-        name: "Crit power",
-        image: "",
+        name: "Give 0.5 crit power more",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMvjRIy2yWiJyI1XY4ccblO0jGgpFv-uzMQg&s",
         cost: 1000,
         baseCost: 1000,
         value: 0.5,
@@ -144,7 +144,7 @@ let upgrades = [
     },
     {
         name: "fishin game",
-        image: "",
+        image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/1e1d980cae1628971e175f45c72b31f9/pixel-fishing-logo.png",
         bought: false,
         cost: 1000,
         baseCost: 1000,
@@ -152,7 +152,7 @@ let upgrades = [
     },
     {
         name: "add crit to CPS",
-        image: "",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMvjRIy2yWiJyI1XY4ccblO0jGgpFv-uzMQg&s",
         bought: false,
         cost: 5000,
         baseCost: 5000,
@@ -160,7 +160,7 @@ let upgrades = [
     },
     {
         name: "lasis",
-        image: "https://www.latvijasdaba.lv/content/zivis/salmo-salar-l-420x300.jpg",
+        image: "imgs/lasis-removebg-preview.png",
         bought: false,
         cost: 5000,
         baseCost: 5000,
@@ -168,7 +168,7 @@ let upgrades = [
     },
     {
         name: "plicis",
-        image: "https://www.latvijasdaba.lv/content/zivis/blicca-bjoerkna-l-420x300.jpg",
+        image: "imgs/plicis-removebg-preview.png",
         bought: false,
         cost: 10000,
         baseCost: 10000,
@@ -176,7 +176,7 @@ let upgrades = [
     },
     {
         name: "akmeņgrauzis",
-        image: "https://www.latvijasdaba.lv/content/zivis/cobitis-taenia-l-420x300.jpg",
+        image: "imgs/akmeņgrauzis-removebg-preview.png",
         bought: false,
         cost: 50000,
         baseCost: 50000,
@@ -184,7 +184,7 @@ let upgrades = [
     },
     {
         name: "nigliņš",
-        image: "https://www.latvijasdaba.lv/content/zivis/hyperoplus-lanceolatus-le-sauvage-420x300.jpg",
+        image: "imgs/niglins-removebg-preview.png",
         bought: false,
         cost: 100000,
         baseCost: 100000,
@@ -192,7 +192,7 @@ let upgrades = [
     },
     {
         name: "sams",
-        image: "https://www.latvijasdaba.lv/content/zivis/silurus-glanis-l-420x300.jpg",
+        image: "imgs/sams-removebg-preview.png",
         bought: false,
         cost: 500000,
         baseCost: 500000,
@@ -240,13 +240,7 @@ function fish_escape() {
 function cought() {
     clearInterval(hp_interval)
     mini_game_active = false
-    let afk_giver = 0
-    if (afk === 0) {
-        afk_giver = 1
-    } else {
-        afk_giver = afk
-    }
-    counter += current_fish.value*lvl*click_power*keep_cl_pw*afk_giver*keep_a
+    counter += current_fish.value*lvl*click_power*keep_cl_pw
     updateDisplay(counter)
     man_img.src = "imgs/1.png"
     upgrades_update()
@@ -351,7 +345,7 @@ function events_giver() {
         }, 5000)
     } else {
         cur_event.innerText = "Event: take away all passiv income except 1"
-        afk -= (afk+1)
+        afk -= (afk-1)
         setTimeout(() => {
             cur_event.innerText = "Event: None"
         }, 5000)
@@ -545,7 +539,7 @@ setInterval(() => {
         const floating_down = document.createElement("div")
         if (crit < 0.05 && crit_CPS) {
             counter += Math.floor(counter*crit_giver*keep_a*keep_cr)
-            floating_down.classList.add("floating_down")
+            floating_down.classList.add("floating_down_crit")
             floating_down.innerText = `+${formatNumber(Math.floor(counter*crit_giver*keep_a*keep_cr))}`
         } else {
             counter += Math.floor(afk*keep_a)

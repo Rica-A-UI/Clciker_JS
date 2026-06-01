@@ -12,14 +12,14 @@ body {
     width: auto;
     border: none;
     color: rgba(255, 255, 255, 1);
-    background: black;
+    background: none;
     padding: 5px 10px;
     border-radius: 20%;
     transition: 15ms;
 }
 #ascend_btn:hover {
     color: rgba(0, 0, 0, 1);
-    background: rgba(255, 255, 255, 1);
+    background: rgba(255, 255, 255, 0.5);
 }
 article {
     display: flex;
@@ -119,6 +119,14 @@ article {
     position: fixed;
     pointer-events: none;
     color: white;
+    font-weight: bold;
+    z-index: 9999;
+    animation: float_down 500ms ease-in forwards;
+}
+.floating_down_crit {
+    position: fixed;
+    pointer-events: none;
+    color: red;
     font-weight: bold;
     z-index: 9999;
     animation: float_down 500ms ease-in forwards;
