@@ -65,6 +65,7 @@ let upgrades = [
         name: "Buy 1 line for rod",
         image: "",
         cost: 10,
+        baseCost: 10,
         value: 1,
         type: "click",
         bought: false,
@@ -73,6 +74,7 @@ let upgrades = [
         name: "Buy 1 Fisherman",
         image: "",
         cost: 100,
+        baseCost: 100,
         value: 1,
         type: "auto",
         bought: false,
@@ -81,6 +83,7 @@ let upgrades = [
         name: "Buy 5 baits",
         image: "",
         cost: 50,
+        baseCost: 50,
         value: 5,
         type: "click",
         bought: false,
@@ -89,6 +92,7 @@ let upgrades = [
         name: "Buy 5 Fisherman",
         image: "",
         cost: 500,
+        baseCost: 500,
         value: 5,
         type: "auto",
         bought: false,
@@ -97,6 +101,7 @@ let upgrades = [
         name: "Buy 10 rods",
         image: "",
         cost: 1000,
+        baseCost: 1000,
         value: 10,
         type: "click",
         bought: false,
@@ -105,6 +110,7 @@ let upgrades = [
         name: "Buy 10 bait for Fisherman",
         image: "",
         cost: 5000,
+        baseCost: 5000,
         value: 10,
         type: "auto",
         bought: false,
@@ -113,6 +119,7 @@ let upgrades = [
         name: "Buy 15 Bait",
         image: "",
         cost: 10000,
+        baseCost: 10000,
         value: 15,
         type: "click",
         bought: false,
@@ -121,6 +128,7 @@ let upgrades = [
         name: "Buy 15 Fisherman",
         image: "",
         cost: 50000,
+        baseCost: 50000,
         value: 15,
         type: "auto",
         bought: false,
@@ -129,6 +137,7 @@ let upgrades = [
         name: "Crit power",
         image: "",
         cost: 1000,
+        baseCost: 1000,
         value: 0.5,
         type: "crit",
         bought: false,
@@ -138,6 +147,7 @@ let upgrades = [
         image: "",
         bought: false,
         cost: 1000,
+        baseCost: 1000,
         type: "Fish_game",
     },
     {
@@ -145,6 +155,7 @@ let upgrades = [
         image: "",
         bought: false,
         cost: 5000,
+        baseCost: 5000,
         type: "CPS_crit",
     },
     {
@@ -152,6 +163,7 @@ let upgrades = [
         image: "https://www.latvijasdaba.lv/content/zivis/salmo-salar-l-420x300.jpg",
         bought: false,
         cost: 5000,
+        baseCost: 5000,
         type: "lasis",
     },
     {
@@ -159,6 +171,7 @@ let upgrades = [
         image: "https://www.latvijasdaba.lv/content/zivis/blicca-bjoerkna-l-420x300.jpg",
         bought: false,
         cost: 10000,
+        baseCost: 10000,
         type: "plicis",
     },
     {
@@ -166,6 +179,7 @@ let upgrades = [
         image: "https://www.latvijasdaba.lv/content/zivis/cobitis-taenia-l-420x300.jpg",
         bought: false,
         cost: 50000,
+        baseCost: 50000,
         type: "akmeņgrauzis",
     },
     {
@@ -173,6 +187,7 @@ let upgrades = [
         image: "https://www.latvijasdaba.lv/content/zivis/hyperoplus-lanceolatus-le-sauvage-420x300.jpg",
         bought: false,
         cost: 100000,
+        baseCost: 100000,
         type: "nigliņš",
     },
     {
@@ -180,6 +195,7 @@ let upgrades = [
         image: "https://www.latvijasdaba.lv/content/zivis/silurus-glanis-l-420x300.jpg",
         bought: false,
         cost: 500000,
+        baseCost: 500000,
         type: "sams",
     },
 ]
@@ -288,40 +304,7 @@ function ascension_process() {
     updateDisplay(counter)
     upgrades.forEach(item => {
         item.bought = false
-        
-        if (item.name === "1") {
-            item.cost = 10
-        } else if (item.name === "2") {
-            item.cost = 100
-        } else if (item.name === "3") {
-            item.cost = 50
-        } else if (item.name === "4") {
-            item.cost = 500
-        } else if (item.name === "5") {
-            item.cost = 1000
-        } else if (item.name === "6") {
-            item.cost = 5000
-        } else if (item.name === "7") {
-            item.cost = 10000
-        } else if (item.name === "8") {
-            item.cost = 50000
-        } else if (item.type === "crit") {
-            item.cost = 1000
-        } else if (item.type === "Fish_game") {
-            item.cost = 1000
-        } else if (item.type === "CPS_crit") {
-            item.cost = 5000
-        } else if (item.type === "lasis") {
-            item.cost = 5000
-        } else if (item.type === "plicis") {
-            item.cost = 10000
-        } else if (item.type === "akmeņgrauzis") {
-            item.cost = 50000
-        } else if (item.type === "nigliņš") {
-            item.cost = 100000
-        } else if (item.type === "sams") {
-            item.cost = 500000
-        }
+        item.cost = item.baseCost
     })
     upgrades_update()
 
