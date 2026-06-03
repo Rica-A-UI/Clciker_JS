@@ -618,6 +618,4 @@ setInterval(() => {
     }
 }, 1000)
 
-window.onbeforeunload(() => {
-    save_game()
-})
+window.onbeforeunload = function () {save_game()}
