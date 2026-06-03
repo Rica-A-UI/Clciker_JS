@@ -247,7 +247,7 @@ function save_game() {
         mini_game_active: mini_game_active,
         upgrades: upgrades,
     }
-    localStorage.setItem("savedata", JSON.stringify(data)) // converting an object into a JSON string
+    localStorage.setItem("savedata", JSON.stringify(data)) // converting an object into a JSON string, localStorage pieņem key un 1 value, lai iebāztu dicionary jādara ar stringify un parse
 }
 
 function load_game() {
