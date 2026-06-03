@@ -228,10 +228,10 @@ article {
 .ascend_bonuses p {
     font-size: 2vh;
 }
-.ascend_bonuses button:active {
-    scale: 1.1;
-    background: linear-gradient(to top, rgba(0, 200, 0, 1) 0%, rgba(0, 50, 0, 1) 100%) !important;
-}
 .error_1 {
     background: linear-gradient(to top, rgb(136, 12, 12) 0%, rgba(63, 7, 7, 1) 100%) !important;
+}
+.active {
+    scale: 1.1;
+    background: linear-gradient(to top, rgba(0, 200, 0, 1) 0%, rgba(0, 50, 0, 1) 100%) !important;
 }

@@ -230,6 +230,47 @@ function start_fish() {
     }
 }
 
+function save_game() {
+    let data = {
+        counter: counter,
+        click_power: click_power,
+        afk: afk,
+        crit_giver: crit_giver,
+        lvl: lvl,
+        ascend_status: ascend_status,
+        starter_ascend_value: starter_ascend_value,
+        debuffer: debuffer,
+        keep_a: keep_a,
+        keep_cl_pw: keep_cl_pw,
+        keep_cr: keep_cr,
+        crit_CPS: crit_CPS,
+        mini_game_active: mini_game_active,
+        upgrades: upgrades,
+    }
+    localStorage.setItem("savedata", JSON.stringify(data)) // converting an object into a JSON string
+}
+
+function load_game() {
+    let save = localStorage.getItem("savedata")
+    if (save !== null && save !== undefined && save !== "") { // vienkāršak (save) tas, lai es iemācos localStorage
+        let data = JSON.parse(save) // converting JSON strings into JavaScript objects, tas ir tas dicionary, kas ir save_game() funkcijā
+        counter = data.counter
+        click_power = data.click_power
+        afk = data.afk
+        crit_giver = data.crit_giver
+        lvl = data.lvl
+        ascend_status = data.ascend_status
+        starter_ascend_value = data.starter_ascend_value
+        debuffer = data.debuffer
+        keep_a = data.keep_a
+        keep_cl_pw = data.keep_cl_pw
+        keep_cr = data.keep_cr
+        crit_CPS = data.crit_CPS
+        mini_game_active = data.mini_game_active
+        upgrades = data.upgrades
+    }
+}
+
 function fish_escape() {
     clearInterval(hp_interval)
     mini_game_active = false
@@ -415,6 +456,7 @@ function buyUpgrade(name, event) {
 
 document.addEventListener("DOMContentLoaded", () => {
     mini_game_div.style.display = `none`
+    load_game()
     let clicker_div_height = clicker_div.offsetHeight
     upgrades_div.style.marginTop = `${clicker_div_height+3}px`
     ascend_btn.innerText = `Ascension: ${starter_ascend_value}`
@@ -437,7 +479,7 @@ clicker.addEventListener("click", (event) => {
         clicker.style.transform = "scale(1)"
     }, 50)
     if (crit < 0.05) {
-        counter = click_power*crit_giver*keep_cr + counter
+        counter = Math.floor(click_power*crit_giver*keep_cr) + counter
         floating_num.classList.add("floarting_num_crit")
         floating_num.innerText = `+${formatNumber(click_power*crit_giver*keep_cl_pw*keep_cr)}`
     } else {
@@ -516,16 +558,25 @@ keep_click_power.addEventListener("click", () => {
     keeper_cl = true
     keeper_cr = false
     keeper_a = false
+    keep_click_power.classList.add("active")
+    keep_afk.classList.remove("active")
+    keep_crit.classList.remove("active")
 })
 keep_crit.addEventListener("click", () => {
     keeper_cr = true
     keeper_a = false
     keeper_cl = false
+    keep_crit.classList.add("active")
+    keep_click_power.classList.remove("active")
+    keep_afk.classList.remove("active")
 })
 keep_afk.addEventListener("click", () => {
     keeper_a = true
     keeper_cl = false
     keeper_cr = false
+    keep_afk.classList.add("active")
+    keep_click_power.classList.remove("active")
+    keep_crit.classList.remove("active")
 })
 
 mini_game_div.addEventListener("click", () => {
@@ -566,3 +617,7 @@ setInterval(() => {
         upgrades_update()
     }
 }, 1000)
+
+window.onbeforeunload(() => {
+    save_game()
+})
