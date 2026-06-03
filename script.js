@@ -70,6 +70,7 @@ let upgrades = [
         value: 1,
         type: "click",
         bought: false,
+        lvl: 1,
     },
     {
         name: "Buy 1 Fisherman",
@@ -79,6 +80,7 @@ let upgrades = [
         value: 1,
         type: "auto",
         bought: false,
+        lvl: 1,
     },
     {
         name: "Buy 5 baits",
@@ -88,6 +90,7 @@ let upgrades = [
         value: 5,
         type: "click",
         bought: false,
+        lvl: 1,
     },
     {
         name: "Buy 5 Fisherman",
@@ -97,6 +100,7 @@ let upgrades = [
         value: 5,
         type: "auto",
         bought: false,
+        lvl: 1,
     },
     {
         name: "Buy 10 rods",
@@ -106,6 +110,7 @@ let upgrades = [
         value: 10,
         type: "click",
         bought: false,
+        lvl: 1,
     },
     {
         name: "Buy 10 bait for Fisherman",
@@ -115,6 +120,7 @@ let upgrades = [
         value: 10,
         type: "auto",
         bought: false,
+        lvl: 1,
     },
     {
         name: "Buy 15 Bait",
@@ -124,6 +130,7 @@ let upgrades = [
         value: 15,
         type: "click",
         bought: false,
+        lvl: 1,
     },
     {
         name: "Buy 15 Fisherman",
@@ -133,6 +140,7 @@ let upgrades = [
         value: 15,
         type: "auto",
         bought: false,
+        lvl: 1,
     },
     {
         name: "Give 0.5 crit power more",
@@ -142,6 +150,7 @@ let upgrades = [
         value: 0.5,
         type: "crit",
         bought: false,
+        lvl: 1,
     },
     {
         name: "fishin game",
@@ -150,6 +159,7 @@ let upgrades = [
         cost: 1000,
         baseCost: 1000,
         type: "Fish_game",
+        lvl: 1,
     },
     {
         name: "add crit to CPS",
@@ -158,6 +168,7 @@ let upgrades = [
         cost: 5000,
         baseCost: 5000,
         type: "CPS_crit",
+        lvl: 1,
     },
     {
         name: "lasis",
@@ -166,6 +177,7 @@ let upgrades = [
         cost: 5000,
         baseCost: 5000,
         type: "lasis",
+        lvl: 1,
     },
     {
         name: "plicis",
@@ -174,6 +186,7 @@ let upgrades = [
         cost: 10000,
         baseCost: 10000,
         type: "plicis",
+        lvl: 1,
     },
     {
         name: "akmeņgrauzis",
@@ -182,6 +195,7 @@ let upgrades = [
         cost: 50000,
         baseCost: 50000,
         type: "akmeņgrauzis",
+        lvl: 1,
     },
     {
         name: "nigliņš",
@@ -190,6 +204,7 @@ let upgrades = [
         cost: 100000,
         baseCost: 100000,
         type: "nigliņš",
+        lvl: 1,
     },
     {
         name: "sams",
@@ -198,6 +213,16 @@ let upgrades = [
         cost: 500000,
         baseCost: 500000,
         type: "sams",
+        lvl: 1,
+    },
+    {
+      name: "GOLDEN FISH",
+      image: "imgs/Golden_fish.png",
+      bought: false,
+      cost: 1e10,
+      baseCost: 1e10,
+      type: "last_purchase",
+      lvl: 5,
     },
 ]
 
@@ -411,7 +436,7 @@ function upgrades_update () {
             <button onclick="buyUpgrade('${upgrade.name}', event)">Cost: $${upgrade.cost}</button>
         </div>
     `
-    if (upgrade.cost <= counter && upgrade.bought === false) {
+    if (upgrade.cost <= counter && upgrade.bought === false && lvl >= upgrade.lvl) {
         cards.innerHTML += cardHTML
     } 
     })
@@ -442,10 +467,16 @@ function buyUpgrade(name, event) {
         } else if (item.type === "CPS_crit") {
             crit_CPS = true
             item.bought = true
-        }else if (item.type === "lasis" || item.type === "plicis" || item.type === "akmeņgrauzis" || item.type === "nigliņš" || item.type === "sams") {
+        } else if (item.type === "lasis" || item.type === "plicis" || item.type === "akmeņgrauzis" || item.type === "nigliņš" || item.type === "sams") {
             item.bought = true
             click_power *= 2
             afk *= 2
+            clicker.src = item.image
+        } else if (item.type === "last_purchase") {
+            item.bought = true
+            click_power *= 10
+            afk *= 10
+            crit_giver *= 2
             clicker.src = item.image
         }
         updateDisplay(counter)
